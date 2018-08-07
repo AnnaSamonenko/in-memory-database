@@ -1,42 +1,38 @@
 import database.InMemoryDatabase;
 import database.InMemoryDatabaseImpl;
-import util.DBUtil;
+import helper.DBHelper;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         final InMemoryDatabase imd = new InMemoryDatabaseImpl();
-        DBUtil.generate(imd);
-
+        DBHelper.generate(imd);
         ExecutorService executorService = Executors.newFixedThreadPool(10);
+        Collection<Callable<Object>> tasks = new ArrayList<>();
 
-        Callable task1 = new Callable() {
-            public Object call() {
-                return imd.delete(3);
-            }
-        };
+        for (int i = 0; i < 25; i++) {
+            tasks.add(() -> {
+                DBHelper.remove(imd);
+                return null;
+            });
+        }
 
-        Callable task2 = new Callable() {
-            public Object call() {
-                return imd.read(3);
-            }
-        };
+        for (int i = 0; i < 25; i++) {
+            tasks.add(() -> {
+                DBHelper.update(imd);
+                return null;
+            });
+        }
 
-        Collection<Callable> tasks = Arrays.asList(new Callable[]
-                {task1, task2});
+        System.out.println(tasks.size());
 
-
-        tasks.add(task1);
-        tasks.add(task2);
         executorService.invokeAll(tasks);
-
-        DBUtil.print(imd);
+        DBHelper.print(imd);
+        executorService.shutdown();
     }
 
 }

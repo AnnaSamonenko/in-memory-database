@@ -1,13 +1,19 @@
 package database;
 
+import java.util.Set;
+
 public interface InMemoryDatabase {
 
-    void create(int counter, Object object);
+    Object create(int counter, Object object);
 
     Object read(Integer key);
 
-    void update(Integer key, Object object);
+    Object update(Integer key, Object object);
 
     Object delete(Integer key);
+
+    Set getKeys();
+
+    int size();
 
 }
