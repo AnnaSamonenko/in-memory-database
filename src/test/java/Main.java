@@ -14,24 +14,23 @@ public class Main {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         Collection<Callable<Object>> tasks = new ArrayList<>();
 
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 50; i++) {
             tasks.add(() -> {
                 DBHelper.remove(imd);
                 return null;
             });
         }
 
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 50; i++) {
             tasks.add(() -> {
                 DBHelper.update(imd);
                 return null;
             });
         }
 
-        System.out.println(tasks.size());
-
         executorService.invokeAll(tasks);
         DBHelper.print(imd);
+        System.out.println(imd.size());
         executorService.shutdown();
     }
 

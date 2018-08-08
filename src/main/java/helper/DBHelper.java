@@ -3,6 +3,7 @@ package helper;
 import database.InMemoryDatabase;
 import dto.StudentDTO;
 
+import java.util.Random;
 import java.util.Set;
 
 public class DBHelper {
@@ -24,13 +25,14 @@ public class DBHelper {
     }
 
     public static void remove(InMemoryDatabase imd) {
-        for (int i = 0; i < imd.size(); i += 5)
-            imd.delete(i);
+        Random r = new Random();
+        imd.delete(r.nextInt(imd.size()));
     }
 
     public static void update(InMemoryDatabase imd) {
-        for (int i = 0; i < imd.size(); i += 9)
-            imd.update(i, new StudentDTO("XXXX" + i, "YYYY" + i));
+        Random r = new Random();
+        int i = r.nextInt(imd.size());
+        imd.update(i, new StudentDTO("XXXX" + i, "YYYY" + i));
     }
 
 }
