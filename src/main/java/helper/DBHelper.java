@@ -29,6 +29,11 @@ public class DBHelper {
         imd.delete(r.nextInt(imd.size()));
     }
 
+    public static void read(InMemoryDatabase imd) {
+        Random r = new Random();
+        imd.read(r.nextInt(imd.size()));
+    }
+
     public static void update(InMemoryDatabase imd) {
         Random r = new Random();
         int i = r.nextInt(imd.size());

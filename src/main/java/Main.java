@@ -28,6 +28,13 @@ public class Main {
             });
         }
 
+        for (int i = 0; i < 50; i++) {
+            tasks.add(() -> {
+                DBHelper.read(imd);
+                return null;
+            });
+        }
+
         executorService.invokeAll(tasks);
         DBHelper.print(imd);
         System.out.println(imd.size());
