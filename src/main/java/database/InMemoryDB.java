@@ -2,7 +2,7 @@ package database;
 
 import java.util.Set;
 
-public interface InMemoryDatabase {
+public interface InMemoryDB {
 
     Object create(int counter, Object object);
 
